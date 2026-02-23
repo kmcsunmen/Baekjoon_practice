@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+int main() {
+	int idx = 1;
+	char str[2001];
+	while (1) {
+		scanf("%s", str);
+		if (str[0] == '-') return 0;
+
+		int cnt = 0, right = 0, left = 0;
+		int len = strlen(str);
+		for (int i = 0; i < len; i++) {
+			if (str[i] == '}') right++;
+			else if (str[i] == '{') left++;
+			
+			if (right > left) {
+				cnt++;
+				right--;
+				left++;
+			}
+			while (right != 0 && left!=0) {
+				right--;
+				left--;
+			}
+
+		}
+		
+		
+		
+		if (right > left) cnt += (right - left) / 2;
+		else cnt += (left - right) / 2;
+		
+		printf("%d. %d\n", idx++, cnt);
+		
+	}
+	return 0;
+}
