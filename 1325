@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <vector>
+using namespace std;
+
+vector<int> graph[10001];
+int visited[10001];
+int N, M, cnt, mx;
+vector<int> ans;
+
+void dfs(int v) {
+    visited[v] = 1;
+    cnt++;
+    for (int next : graph[v]) {
+        if (!visited[next]) dfs(next);
+    }
+}
+
+int main() {
+    scanf("%d %d", &N, &M);
+    for (int i = 0; i < M; i++) {
+        int a, b;
+        scanf("%d %d", &a, &b);
+        graph[b].push_back(a); // 역방향
+    }
+
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= N; j++) visited[j] = 0;
+        cnt = 0;
+        dfs(i);
+
+        if (cnt > mx) {
+            mx = cnt;
+            ans.clear();
+            ans.push_back(i);
+        } else if (cnt == mx) {
+            ans.push_back(i);
+        }
+    }
+
+    for (int x : ans) printf("%d ", x);
+}
