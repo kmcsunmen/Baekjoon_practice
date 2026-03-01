@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+int cnt = 0;
+int N;
+int col[15] = { 0 };
+int diag1[30] = { 0 }; // col+row
+int diag2[30] = { 0 }; // col-row+N
+
+void dfs(int row) {
+	if (row == N) {
+		cnt++;
+		return;
+	}
+
+	for (int c = 0; c < N; c++) {
+		if (!col[c] && !diag1[c + row] && !diag2[c - row + N]) {
+			col[c] = 1;
+			diag1[c + row] = 1;
+			diag2[c - row + N] = 1;
+			dfs(row + 1);
+			col[c] = 0;
+			diag1[c + row] = 0;
+			diag2[c - row + N] = 0;
+		}
+	}
+}
+
+int main() {
+	scanf("%d", &N);
+	dfs(0);
+	printf("%d\n", cnt);
+	return 0;
+}
