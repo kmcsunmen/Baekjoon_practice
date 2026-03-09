@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+int N;
+long long cnt = 0;
+int map[100][100];
+long long dp[100][100];
+
+void way() {
+	dp[0][0] = 1;
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			if (i == N - 1 && j == N - 1) continue;
+
+			int d = map[i][j];
+			if (i + d < N) dp[i + d][j] += dp[i][j];
+			if (j + d < N) dp[i][j + d] += dp[i][j];
+		}
+	}
+}
+
+int main() {
+	scanf("%d", &N);
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			scanf("%d", &map[i][j]);
+			dp[i][j] = 0;
+		}
+	}
+	way();
+	printf("%lld\n", dp[N-1][N-1]);
+	return 0;
+}
