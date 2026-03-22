@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int N;
+    scanf("%d", &N);
+
+    int* input = malloc(sizeof(int) * N);
+    int* rst = malloc(sizeof(int) * N);
+    int* stack = malloc(sizeof(int) * N);
+    int top = -1;
+    for (int i = 0; i < N; i++) {
+        scanf("%d", input + i);
+        rst[i] = -1;
+    }
+
+    for (int i = 0; i < N; i++) {
+        while (top != -1 && input[stack[top]] < input[i]) {
+            rst[stack[top]] = input[i];
+            top--;
+        }
+        stack[++top] = i;
+    }
+
+    for (int i = 0; i < N; i++) printf("%d ", rst[i]);
+    return 0;
+}
