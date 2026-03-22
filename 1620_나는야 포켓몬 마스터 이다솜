@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+typedef struct {
+	char name[21];
+	int index;
+}Poketmon;
+
+int cmp(const void* a, const void* b) {
+	return strcmp(((Poketmon*)a)->name, ((Poketmon*)b)->name);
+}
+
+int main() {
+	int N, M;
+	scanf("%d %d", &N, &M);
+	char** book = (char**)malloc(sizeof(char*) * (N + 1));
+	Poketmon* arr = malloc(sizeof(Poketmon) * (N + 1));
+	for (int i = 1; i <= N; i++) {
+		char temp[21];
+		scanf("%s", &temp);
+		book[i] = malloc(sizeof(char) * (strlen(temp) + 1));
+		strcpy(book[i], temp);
+		strcpy(arr[i].name, temp);
+		arr[i].index = i;
+	}
+
+	qsort(arr + 1, N, sizeof(Poketmon), cmp);
+
+	while (M--) {
+		char temp[21];
+		int num=0;
+		scanf("%s", &temp);
+
+		if (temp[0] >= 48 && temp[0] <= 57) {
+			int num = atoi(temp);
+			printf("%s\n", book[num]);
+		}
+		else {
+			int left = 1, right = N;
+			while (left <= right) {
+				int mid = (left + right) / 2;
+				int rst = strcmp(temp, arr[mid].name);
+
+				if (rst == 0) {
+					printf("%d\n", arr[mid].index);
+					break;
+				}
+				else if (rst < 0) right = mid - 1;
+				else left = mid + 1;
+			}
+		}
+	}
+	return 0;
+}
